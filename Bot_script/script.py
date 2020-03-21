@@ -1,22 +1,27 @@
+#BOT TOKEN
 f = open("token.txt","r")
 botToken = f.read()
 f.close()
 
+#DISCORD CHANNELS
 channels={}
-channels["#general"] = "664156473944834082"
-channels["#core"] = "664156536821776384"
+channels["#general"] = "664156473944834082" 
+channels["#core"] = "664156536821776384"  
 channels["#bot_testing"] = "690605490123571320"
 channels["#bot-functionalities"] = "690616698675527782"
-author = "690599381304606741"
+
+author = "690599381304606741" #this id can be obtained from DM channel link
+#link to upcoming events file
 upcoming_events = "https://raw.githubusercontent.com/abhishek0220/BOT_Darwin/master/Support/upcoming_events.csv"
 
+#libraries
 import discord
 import urllib.request
 import codecs
 import csv
 from discord.ext import commands
 
-bot = commands.Bot(command_prefix='$Darwin ', description='A bot that greets the user back.')
+bot = commands.Bot(command_prefix='$Darwin ', description='Coding Club IIT Jammu Discord BOT')
 @bot.event
 async def on_ready():
     print('Logged in as')
@@ -25,33 +30,39 @@ async def on_ready():
     print('------')
 
 @bot.command()
-async def greet(ctx):
+async def greet(ctx):   #basic command to greet
     await ctx.send(":smiley: :wave: Hello, I am Darwin")
 
 @bot.command()
-async def about(ctx):
+async def about(ctx):   #About command
     msg = "I am **Darwin v1.0** Coding Club IIT Jammu`s Discord BOT created by **Abhishek Chaudhary** you may report any bug directly to him.\n $Darwin member abc : to get details of members name starting with abc.\n $Darwin post <channel> <msg> : to post message as bot in specified channel.\n $Darwin events : To find details about upcoming events.\n Currently Supported Command"
     await ctx.send(msg)
 
 @bot.command()
-async def post(ctx, a : str , b: str):
+async def post(ctx, a : str , b: str):  #command to post to specific channel
+    channelspermited = [channels["#core"], channels["#bot_testing"]]
+    #in case developer needs to communicate directely
     if(str(ctx.message.channel.id) == author):
         if(a in channels):
             channel = bot.get_channel(int(channels[a]))
             await channel.send(b)
             print("Msg posted from author")
-    elif(str(ctx.message.channel.id) == channels["#core"] or str(ctx.message.channel.id) == channels["#bot_testing"]):
+    elif(str(ctx.message.channel.id) in channelspermited):
         ch_code = a[2:-1]
         channel = bot.get_channel(int(ch_code))
         await channel.send(b)
         print("Msg posted from coreteam")
-
-
-    
+    else:
+        await ctx.send("Sorry you can`t use this command:rolling_eyes:.")
 
 @bot.command()
 async def member(ctx, a: str):
-    if(len(a)<3 or (str(ctx.message.channel.id) != channels["#core"] and str(ctx.message.channel.id) != author and str(ctx.message.channel.id) != channels["#bot_testing"] and str(ctx.message.channel.id) != channels["#bot-functionalities"])):
+    channelspermited = [author, channels["#core"], channels["#bot_testing"], channels["#bot-functionalities"]]
+    if(str(ctx.message.channel.id) not in channelspermited):
+        await ctx.send("Sorry you can`t use this command:rolling_eyes:.")
+        return
+    if(len(a)<3):
+        await ctx.send("Oops:confused: pls send minimum 3 letters.")
         return
     match = a.upper()
     found = set()
