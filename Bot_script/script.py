@@ -19,6 +19,7 @@ import discord
 import urllib.request
 import codecs
 import csv
+import requests 
 from discord.ext import commands
 
 bot = commands.Bot(command_prefix='$Darwin ', description='Coding Club IIT Jammu Discord BOT')
@@ -102,4 +103,16 @@ async def events(ctx):
             tem = tem + "**" + header[j] + "** : " + i[j] + "\n"
         output = output + tem + "\n"
     await ctx.send(output)
+@bot.command()
+async def Corona(ctx):
+    URL = "https://corona.lmao.ninja/countries/India"
+    r = requests.get(url = URL) 
+    data = r.json() 
+    da = ['country','cases','todayCases','deaths','todayDeaths','recovered','active','critical']
+    out = ""
+    for i in da:
+        out = out + i + " : " + str(data[i])+"\n"
+    out = out + "\nSource: NovelCOVID API"
+    await ctx.send(out)
+
 bot.run(botToken)
