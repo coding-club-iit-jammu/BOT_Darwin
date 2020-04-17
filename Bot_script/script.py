@@ -150,7 +150,10 @@ async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
         user_m = '{0.author.mention} '.format(ctx)
         if(abuse_mode):
-            msg_s = random.choice(insults_arr)
+            if(user_m.strip() == "<@664161180121825301>"):
+                msg_s = "Sorry sir, you haven`t developed that feature."
+            else:
+                msg_s = random.choice(insults_arr)
         else:
             msg_s = "Invalid Command"
         msg_s = user_m + msg_s
