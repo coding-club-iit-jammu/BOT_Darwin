@@ -119,5 +119,10 @@ async def Corona(ctx):
     out = out + last_updated
     out = out + "\nSource: NovelCOVID API"
     await ctx.send(out)
-
+@bot.event
+async def on_command_error(error, ctx):
+    if isinstance(error, commands.CommandNotFound):
+        await bot.send_message(ctx.message.channel, "FuCk 0fF")
+    else:
+        raise error
 bot.run(botToken)
