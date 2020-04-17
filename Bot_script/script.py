@@ -10,9 +10,13 @@ channels["#core"] = "664156536821776384"
 channels["#bot_testing"] = "690605490123571320"
 channels["#bot-functionalities"] = "690616698675527782"
 
+insults_arr = []
+abuse_mode = False
+
 author = "690599381304606741" #this id can be obtained from DM channel link
 #link to upcoming events file
 upcoming_events = "https://raw.githubusercontent.com/abhishek0220/BOT_Darwin/master/Support/upcoming_events.csv"
+insults_txt = "https://raw.githubusercontent.com/abhishek0220/BOT_Darwin/master/Support/insults.txt"
 
 #libraries
 import discord
@@ -21,7 +25,10 @@ import urllib.request
 import codecs
 import csv
 import requests 
+import random
 from discord.ext import commands
+from discord.ext.commands import CommandNotFound
+
 
 bot = commands.Bot(command_prefix='$Darwin ', description='Coding Club IIT Jammu Discord BOT')
 @bot.event
@@ -30,6 +37,10 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
+    data = urllib.request.urlopen(insults_txt)
+    for line in data:
+        insults_arr.append(line.decode('utf-8'))
+    print('--list loaded----')
 
 @bot.command()
 async def greet(ctx):   #basic command to greet
@@ -119,10 +130,31 @@ async def Corona(ctx):
     out = out + last_updated
     out = out + "\nSource: NovelCOVID API"
     await ctx.send(out)
+
+@bot.command()
+async def abuse(ctx, val):
+    global abuse_mode
+    channelspermited = [author, channels["#core"], channels["#bot_testing"]]
+    if(str(ctx.message.channel.id) not in channelspermited):
+        await ctx.send("Sorry you can`t use this command:rolling_eyes:.")
+        return
+    if(val == '1'):
+        abuse_mode = True
+    else:
+        abuse_mode = False
+    out = "Updated abuse mode to " + str(abuse_mode)
+    await ctx.send(out)
+
 @bot.event
-async def on_command_error(error, ctx):
-    if isinstance(error, commands.CommandNotFound):
-        await bot.send_message(ctx.message.channel, "FuCk 0fF")
+async def on_command_error(ctx, error):
+    if isinstance(error, CommandNotFound):
+        user_m = '{0.author.mention} '.format(ctx)
+        if(abuse_mode):
+            msg_s = random.choice(insults_arr)
+        else:
+            msg_s = "Invalid Command"
+        msg_s = user_m + msg_s
+        await ctx.send(msg_s)
     else:
         raise error
 bot.run(botToken)
