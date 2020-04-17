@@ -16,6 +16,7 @@ upcoming_events = "https://raw.githubusercontent.com/abhishek0220/BOT_Darwin/mas
 
 #libraries
 import discord
+import time
 import urllib.request
 import codecs
 import csv
@@ -105,13 +106,17 @@ async def events(ctx):
     await ctx.send(output)
 @bot.command()
 async def Corona(ctx):
-    URL = "https://corona.lmao.ninja/countries/India"
+    URL = "https://corona.lmao.ninja/v2/countries/India"
     r = requests.get(url = URL) 
     data = r.json() 
-    da = ['country','cases','todayCases','deaths','todayDeaths','recovered','active','critical']
+    da = ['country','cases','todayCases','deaths','todayDeaths','recovered','active','critical','casesPerOneMillion','testsPerOneMillion']
     out = ""
     for i in da:
         out = out + i + " : " + str(data[i])+"\n"
+    time_got = int(data['updated'])//1000 + 19800
+    curr_time = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(time_got))
+    last_updated = "\nLast Updated : " + curr_time
+    out = out + last_updated
     out = out + "\nSource: NovelCOVID API"
     await ctx.send(out)
 
