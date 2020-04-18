@@ -151,7 +151,7 @@ async def abuse(ctx, val):
 
 #API taken from Advice Slip JSON API website https://api.adviceslip.com/
 @bot.command()
-async def advice(ctx):
+async def random(ctx):
     URL = "https://api.adviceslip.com/advice" 
     r = requests.get(url = URL) 
     data = r.json() 
