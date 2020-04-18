@@ -149,6 +149,15 @@ async def abuse(ctx, val):
     out = "Updated abuse mode to " + str(abuse_mode)
     await ctx.send(out)
 
+#API taken from Advice Slip JSON API website https://api.adviceslip.com/
+@bot.command()
+async def advice(ctx):
+    URL = "https://api.adviceslip.com/advice" 
+    r = requests.get(url = URL) 
+    data = r.json() 
+    out = data['slip']['advice']
+    await ctx.send(out)
+
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, CommandNotFound):
