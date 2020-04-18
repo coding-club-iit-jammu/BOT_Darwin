@@ -30,7 +30,11 @@ from discord.ext import commands
 from discord.ext.commands import CommandNotFound
 
 
-bot = commands.Bot(command_prefix='$Darwin ', description='Coding Club IIT Jammu Discord BOT')
+bot = commands.Bot(
+        command_prefix='$Darwin ',
+        description='Coding Club IIT Jammu Discord BOT',
+        case_insensitive=True    
+    )
 @bot.event
 async def on_ready():
     print('Logged in as')
