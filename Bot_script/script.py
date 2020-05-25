@@ -171,7 +171,7 @@ async def Corona(ctx):
 @bot.command()
 async def abuse(ctx, val):
     global abuse_mode
-    channelspermitedS = [author, channels["#core"], channels["#bot_testing"]]
+    channelspermited = [author, channels["#core"], channels["#bot_testing"]]
     if(str(ctx.message.channel.id) not in channelspermited):
         await ctx.send("Sorry you can`t use this command:rolling_eyes:.")
         return
