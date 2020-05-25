@@ -110,20 +110,24 @@ async def dep_members(ctx, a: str):
         await ctx.send("Oops:confused: Department code must be of 3 letters.")
         return
     match = a.upper()
-    found = []
+    found = {}
     with open('members.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             dep_code = row[1]
             dep_code = dep_code[4:7]
             if(dep_code.upper() == match):
-                tem = (row[1].upper())
-                found.append(tem[:11])
+                year = row[1]
+                name = row[0]
+                found[name] = year[:4]
+
     no_stu_found = len(found)
     output = "Found {} Students in {} branch\n\n".format(no_stu_found, a.upper())
-    for i in range(no_stu_found):
-        opt = str(i+1) + "." + str(found[i])
+    i = 1
+    for name, year in found.items():
+        opt = str(i) + ". " + str(name) + ' ' +str(year)
         #opt = "{}. {}".format((i+1), found[i]) 
+        i += 1
         output = output + opt + "\n"
     await ctx.send(output)
 
