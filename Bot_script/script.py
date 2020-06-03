@@ -101,6 +101,38 @@ async def member(ctx, a: str):
     await ctx.send(output)
 
 @bot.command()
+async def dep_members(ctx, a: str):
+    channelspermited = [author, channels["#core"], channels["#bot_testing"], channels["#bot-functionalities"]]
+    if(str(ctx.message.channel.id) not in channelspermited):
+        await ctx.send("Sorry you can`t use this command:rolling_eyes:.")
+        return
+    if(len(a)<3):
+        await ctx.send("Oops:confused: Department code must be of 3 letters.")
+        return
+    match = a.upper()
+    found = {}
+    with open('members.csv', 'r') as file:
+        reader = csv.reader(file)
+        for row in reader:
+            dep_code = row[1]
+            dep_code = dep_code[4:7]
+            if(dep_code.upper() == match):
+                year = row[1]
+                name = row[0]
+                found[name] = year[:4]
+
+    no_stu_found = len(found)
+    output = "Found {} Students in {} branch\n\n".format(no_stu_found, a.upper())
+    i = 1
+    for name, year in found.items():
+        opt = str(i) + ". " + str(name) + ' ' +str(year)
+        #opt = "{}. {}".format((i+1), found[i]) 
+        i += 1
+        output = output + opt + "\n"
+    await ctx.send(output)
+
+
+@bot.command()
 async def events(ctx):
     event_list = []
     ftpstream = urllib.request.urlopen(upcoming_events)
@@ -119,6 +151,7 @@ async def events(ctx):
             tem = tem + "**" + header[j] + "** : " + i[j] + "\n"
         output = output + tem + "\n"
     await ctx.send(output)
+
 @bot.command()
 async def Corona(ctx):
     URL = "https://corona.lmao.ninja/v2/countries/India"
