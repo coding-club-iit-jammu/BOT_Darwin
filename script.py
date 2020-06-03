@@ -1,6 +1,6 @@
 import os
 #BOT TOKEN
-botToken = os.environ('TOKEN')
+botToken = os.environ['TOKEN']
 
 #DISCORD CHANNELS
 channels={}
