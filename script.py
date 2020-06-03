@@ -1,7 +1,6 @@
+import os
 #BOT TOKEN
-f = open("token.txt","r")
-botToken = f.read()
-f.close()
+botToken = os.environ('TOKEN')
 
 #DISCORD CHANNELS
 channels={}
