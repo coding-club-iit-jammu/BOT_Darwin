@@ -14,9 +14,6 @@ insults_arr = []
 abuse_mode = False
 
 author = "690599381304606741" #this id can be obtained from DM channel link
-#link to upcoming events file
-upcoming_events = "https://raw.githubusercontent.com/abhishek0220/BOT_Darwin/master/Support/upcoming_events.csv"
-insults_txt = "https://raw.githubusercontent.com/abhishek0220/BOT_Darwin/master/Support/insults.txt"
 
 #libraries
 import discord
@@ -41,9 +38,9 @@ async def on_ready():
     print(bot.user.name)
     print(bot.user.id)
     print('------')
-    data = urllib.request.urlopen(insults_txt)
-    for line in data:
-        insults_arr.append(line.decode('utf-8'))
+    with open('assets/insults.txt', 'r') as file:
+        for line in file:
+            insults_arr.append(line)
     print('--list loaded----')
 
 @bot.command()
@@ -52,7 +49,7 @@ async def greet(ctx):   #basic command to greet
 
 @bot.command()
 async def about(ctx):   #About command
-    msg = "I am **Darwin v1.0** Coding Club IIT Jammu`s Discord BOT created by **Abhishek Chaudhary** you may report any bug directly to him.\n $Darwin member abc : to get details of members name starting with abc.\n $Darwin post <channel> <msg> : to post message as bot in specified channel.\n $Darwin events : To find details about upcoming events.\n Currently Supported Command"
+    msg = "I am **Darwin v1.0** Coding Club IIT Jammu`s Discord BOT.\n $Darwin member abc : to get details of members name starting with abc.\n $Darwin post <channel> <msg> : to post message as bot in specified channel.\n $Darwin events : To find details about upcoming events.\n Currently Supported Command"
     await ctx.send(msg)
 
 @bot.command()
@@ -83,7 +80,7 @@ async def member(ctx, a: str):
         return
     match = a.upper()
     found = set()
-    with open('members.csv', 'r') as file:
+    with open('assets/members.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             name = row[0]
@@ -111,7 +108,7 @@ async def dep_members(ctx, a: str):
         return
     match = a.upper()
     found = {}
-    with open('members.csv', 'r') as file:
+    with open('assets/members.csv', 'r') as file:
         reader = csv.reader(file)
         for row in reader:
             dep_code = row[1]
@@ -135,15 +132,15 @@ async def dep_members(ctx, a: str):
 @bot.command()
 async def events(ctx):
     event_list = []
-    ftpstream = urllib.request.urlopen(upcoming_events)
-    csvfile = csv.reader(codecs.iterdecode(ftpstream, 'utf-8'))
-    i = 0
-    for line in csvfile:
-        if(i == 0):
-            header = line
-            i +=1
-            continue
-        event_list.append(line)
+    with open('assets/upcoming_events.csv', 'r') as file:
+        csvfile = csv.reader(file)
+        i = 0
+        for line in csvfile:
+            if(i == 0):
+                header = line
+                i +=1
+                continue
+            event_list.append(line)
     output = "Found "+str(len(event_list))+" Events\n\n"
     for i in event_list:
         tem = ""
