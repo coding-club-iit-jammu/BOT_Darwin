@@ -1,7 +1,11 @@
 import os
 #BOT TOKEN
-botToken = os.environ['TOKEN']
-
+try:
+    botToken = os.environ['TOKEN']
+except:
+    f = open("token.txt","r")
+    botToken = f.read()
+    f.close()
 #DISCORD CHANNELS
 channels={}
 channels["#general"] = "664156473944834082" 
