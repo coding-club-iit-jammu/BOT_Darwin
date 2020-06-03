@@ -45,7 +45,7 @@ async def on_ready():
 
 @bot.command()
 async def greet(ctx):   #basic command to greet
-    await ctx.send(":smiley: :wave: Hello, I am Darwin")
+    await ctx.send(":smiley: :wave: Hello, I am Darwin...")
 
 @bot.command()
 async def about(ctx):   #About command
