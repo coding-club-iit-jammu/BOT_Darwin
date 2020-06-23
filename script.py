@@ -2,9 +2,11 @@ import os
 #BOT TOKEN
 try:
     botToken = os.environ['TOKEN']
+    meme_hook = os.environ['webhook']
 except:
     f = open("token.txt","r")
-    botToken = f.read()
+    botToken = f.readline().rstrip()
+    meme_hook = f.readline().rstrip()
     f.close()
 #DISCORD CHANNELS
 channels={}
@@ -190,6 +192,16 @@ async def advice(ctx):
     data = r.json() 
     out = data['slip']['advice']
     await ctx.send(out)
+
+@bot.command()
+@commands.cooldown(1, 30, commands.BucketType.guild)
+async def titan(ctx):
+    data = {
+        "webhook" : meme_hook
+    }
+    URL = "http://discord-meme.azurewebsites.net/api/sendmeme?code=fOozheVSUeip5uq36nNaJtTyoYABhYQ42nWqLIa8g763XeAcUQ3xEw=="
+    r = requests.post(url = URL, json= data) 
+    await ctx.send("sent") 
 
 @bot.event
 async def on_command_error(ctx, error):
