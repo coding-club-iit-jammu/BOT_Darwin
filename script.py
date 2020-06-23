@@ -14,6 +14,7 @@ channels["#general"] = "664156473944834082"
 channels["#core"] = "664156536821776384"  
 channels["#bot_testing"] = "690605490123571320"
 channels["#bot-functionalities"] = "690616698675527782"
+channels["#memes"] = "721268921692323851"
 
 insults_arr = []
 abuse_mode = False
@@ -196,15 +197,22 @@ async def advice(ctx):
 @bot.command()
 @commands.cooldown(1, 30, commands.BucketType.guild)
 async def titan(ctx):
+    channelspermited = [author, channels["#memes"]]
+    if(str(ctx.message.channel.id) not in channelspermited):
+        await ctx.send("Sorry you can`t use this command here:rolling_eyes:.")
+        return
     data = {
         "webhook" : meme_hook
     }
     URL = "http://discord-meme.azurewebsites.net/api/sendmeme?code=fOozheVSUeip5uq36nNaJtTyoYABhYQ42nWqLIa8g763XeAcUQ3xEw=="
     r = requests.post(url = URL, json= data) 
-    await ctx.send("sent") 
+
 
 @bot.event
 async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = 'This command is ratelimited, please try again in {:.2f}s'.format(error.retry_after)
+        await ctx.send(msg)
     if isinstance(error, CommandNotFound):
         user_m = '{0.author.mention} '.format(ctx)
         if(abuse_mode):
