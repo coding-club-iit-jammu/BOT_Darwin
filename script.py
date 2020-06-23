@@ -195,8 +195,8 @@ async def advice(ctx):
     await ctx.send(out)
 
 @bot.command()
-@commands.cooldown(1, 30, commands.BucketType.guild)
 async def titan(ctx):
+    '''
     channelspermited = [author, channels["#memes"]]
     if(str(ctx.message.channel.id) not in channelspermited):
         await ctx.send("Sorry you can`t use this command here:rolling_eyes:.")
@@ -206,6 +206,8 @@ async def titan(ctx):
     }
     URL = "http://discord-meme.azurewebsites.net/api/sendmeme?code=fOozheVSUeip5uq36nNaJtTyoYABhYQ42nWqLIa8g763XeAcUQ3xEw=="
     r = requests.post(url = URL, json= data) 
+    '''
+    await ctx.send("Agent Titan has been fired!!!")
 
 
 @bot.event
