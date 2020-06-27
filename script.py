@@ -206,7 +206,6 @@ async def natalia(ctx):
     }
     URL = "http://discord-meme.azurewebsites.net/api/sendmeme?code=fOozheVSUeip5uq36nNaJtTyoYABhYQ42nWqLIa8g763XeAcUQ3xEw=="
     r = requests.post(url = URL, json= data) 
-    await ctx.send("Agent Titan has been fired!!!")
 
 
 @bot.event
