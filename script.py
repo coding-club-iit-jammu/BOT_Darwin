@@ -2,11 +2,13 @@ import os
 #BOT TOKEN
 try:
     botToken = os.environ['TOKEN']
-    meme_hook = os.environ['webhook']
+    meme_hook = os.environ['memewebhook']
+    puzzle_hook = os.environ['puzzlewebhook']
 except:
     f = open("token.txt","r")
     botToken = f.readline().rstrip()
     meme_hook = f.readline().rstrip()
+    puzzle_hook = f.readline().rstrip()
     f.close()
 #DISCORD CHANNELS
 channels={}
@@ -15,6 +17,7 @@ channels["#core"] = "664156536821776384"
 channels["#bot_testing"] = "690605490123571320"
 channels["#bot-functionalities"] = "690616698675527782"
 channels["#memes"] = "721268921692323851"
+channels["#puzzles"] = "721268881255301130"
 
 insults_arr = []
 abuse_mode = False
@@ -207,6 +210,20 @@ async def natalia(ctx):
     URL = "http://discord-meme.azurewebsites.net/api/sendmeme?code=fOozheVSUeip5uq36nNaJtTyoYABhYQ42nWqLIa8g763XeAcUQ3xEw=="
     r = requests.post(url = URL, json= data) 
 
+@bot.command()
+@commands.cooldown(1, 30, commands.BucketType.guild)
+async def puzzle(ctx, a = ""):
+    channelspermited = [author, channels["#puzzles"]]
+    if(str(ctx.message.channel.id) not in channelspermited):
+        await ctx.send("Sorry you can`t use this command here:rolling_eyes:.")
+        return
+    data = {
+        "webhook" : puzzle_hook
+    }
+    if(a != ""):
+        data['ques'] = a
+    URL = "https://codingclubiitjmuapis.azurewebsites.net/api/dailyproblems?code=ShqfNnjRFQ4XTV1uPwqV8xbdeTV1k2tY3nO7ayi0DTaMhI3Z6a5H/w=="
+    r = requests.post(url = URL, json= data) 
 
 @bot.event
 async def on_command_error(ctx, error):
