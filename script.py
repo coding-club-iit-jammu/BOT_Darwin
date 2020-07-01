@@ -207,7 +207,7 @@ async def natalia(ctx):
     data = {
         "webhook" : meme_hook
     }
-    URL = "http://discord-meme.azurewebsites.net/api/sendmeme?code=fOozheVSUeip5uq36nNaJtTyoYABhYQ42nWqLIa8g763XeAcUQ3xEw=="
+    URL = "http://codingclubiitjmuapis.azurewebsites.net/api/memebot?code=aNElpOR42VTXTVLXcJVx3lc6wOgV6zpwpJho72/3DM2Pt7Byja8SFg=="
     r = requests.post(url = URL, json= data) 
 
 @bot.command()
